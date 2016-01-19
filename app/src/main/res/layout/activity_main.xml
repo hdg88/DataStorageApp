@@ -10,7 +10,7 @@
         android:layout_width="210dp"
         android:layout_height="41dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:text="No Text Entered"
         android:id="@+id/textView"
         android:layout_row="3"
         android:layout_column="0" />

@@ -36,7 +36,9 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         File file = new File(getFilesDir(),filename);
-        if (!file.exists()) {
+        if (file.exists()) { // check of the file exists
+            addToTextView();
+        } else {
             file = new File(getFilesDir(), filename);
             Toast.makeText(getBaseContext(), "File Created", Toast.LENGTH_SHORT).show();
 
@@ -46,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
             alertDialogBuilder.setView(promptsView);
             final Button b2=(Button)promptsView.findViewById(R.id.button2);
             // create alert dialog
-            AlertDialog alertDialog = alertDialogBuilder.create();
+            final AlertDialog alertDialog = alertDialogBuilder.create();
 
             // show it
             b2.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +56,6 @@ public class MainActivity extends ActionBarActivity {
                 public void onClick(View v) {
                     final EditText ed1=(EditText)promptsView.findViewById(R.id.editTextDialogUserInput);
                     data=ed1.getText().toString();
-
                     try {
                         FileOutputStream fOut = openFileOutput(filename,MODE_WORLD_READABLE);
                         fOut.write(data.getBytes());
@@ -66,14 +67,21 @@ public class MainActivity extends ActionBarActivity {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
+                    addToTextView();
+                    alertDialog.dismiss();
                 }
             });
             alertDialog.show();
+
         }
+
+    }
+
+    public final void addToTextView () { //reads the text stored in the file and adds it to the screen
         int n;
         try {
             FileInputStream fis;
-            fis = openFileInput(filename);
+            fis = openFileInput(filename); //file handler
             fileContent = new StringBuffer("");
 
             byte[] buffer = new byte[1024];
@@ -91,10 +99,8 @@ public class MainActivity extends ActionBarActivity {
         } else {
             tv.setText(fileContent.toString());
         }
-
-
+        //tv.setText("HELLO WORLD");
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
